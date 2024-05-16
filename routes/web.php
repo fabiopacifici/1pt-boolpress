@@ -25,7 +25,11 @@ Route::middleware(['auth', 'verified'])
     ->prefix('admin')
     ->group(function () {
 
-        Route::get('/', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard'); //http://localhost:8000/admin
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard'); //http://localhost:8000/admin
+
+        // Posts route here
+
+
     });
 
 
