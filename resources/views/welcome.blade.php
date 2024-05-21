@@ -11,17 +11,39 @@
             </svg>
         </div>
         <h1 class="display-5 fw-bold">
-            Welcome to Laravel+Bootstrap 5
+            Welcome to Boolpress
         </h1>
 
-        <p class="col-md-8 fs-4">This a preset package with Bootstrap 5 views for laravel projects including laravel breeze/blade. It works from laravel 9.x to the latest release 10.x</p>
-        <a href="https://packagist.org/packages/pacificdev/laravel_9_preset" class="btn btn-primary btn-lg" type="button">Documentation</a>
+        <p class="col-md-8 fs-4">Read our amazing blog</p>
+
     </div>
 </div>
 
-<div class="content">
+<section class="latest_posts">
     <div class="container">
-        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Tempora temporibus, dicta nemo aliquam totam nisi deserunt soluta quas voluptatum ab beatae praesentium necessitatibus minus, facilis illum rerum officiis accusamus dolores!</p>
+        <div class="row">
+
+            @forelse ($latest_posts as $post)
+            <div class="col">
+                <div class="card">
+
+                    @if (Str::startsWith($post->cover_image, 'https://'))
+                    <img class="card-img-top" src="{{$post->cover_image}}" alt="">
+                    @else
+                    <img class="card-img-top" src="{{asset('storage/' . $post->cover_image)}}" alt="">
+                    @endif
+                    <div class="card-body">
+                        <h3>{{$post->title}}</h3>
+                    </div>
+                </div>
+            </div>
+
+            @empty
+            <div class="col-12">
+                <p>No posts here.</p>
+            </div>
+            @endforelse
+        </div>
     </div>
-</div>
+</section>
 @endsection

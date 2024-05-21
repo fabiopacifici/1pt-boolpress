@@ -6,6 +6,8 @@ use App\Http\Requests\StorePostRequest;
 use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -24,7 +26,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.posts.create');
     }
 
     /**
@@ -32,7 +34,22 @@ class PostController extends Controller
      */
     public function store(StorePostRequest $request)
     {
-        //
+        //dd($request->all());
+        // validate
+        $val_data = $request->validated();
+        //dd($val_data);
+        $val_data['slug'] = Str::slug($request->title, '-'); // this is a title this-is-a-title
+
+        $image_path = Storage::put('uploads', $request->cover_image);
+        //dd($image_path);
+        $val_data['cover_image'] = $image_path;
+
+        //dd($val_data);
+        // create
+        Post::create($val_data);
+
+        // redirect
+        return to_route('admin.posts.index')->with('message', 'Post Created successfully');
     }
 
     /**
@@ -48,7 +65,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('admin.posts.edit', compact('post'));
     }
 
     /**
@@ -56,7 +73,35 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
-        //
+        //dd($request->all());
+
+        // validate
+        $val_data = $request->validated();
+
+        $val_data['slug'] = Str::slug($request->title, '-');
+        //dd($val_data);
+
+        if ($request->has('cover_image')) {
+
+            // check if the current post has a cover image
+            if ($post->cover_image) {
+                //dd('here now');
+                // if so, delete it
+                Storage::delete($post->cover_image);
+            }
+
+            // upload the new image
+            $image_path = Storage::put('uploads', $request->cover_image);
+            //dd($image_path);
+            $val_data['cover_image'] = $image_path;
+        }
+
+
+        // update
+        $post->update($val_data);
+
+        // redirect
+        return to_route('admin.posts.index')->with('message', 'Post updated successfully');
     }
 
     /**
@@ -64,6 +109,17 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+
+        if ($post->cover_image) {
+            //dd('here now');
+            // if so, delete it
+            Storage::delete($post->cover_image);
+        }
+
+        // delete the resourece
+        $post->delete();
+
+        // redirect
+        return to_route('admin.posts.index')->with('message', 'Post Deleted forever and ever');
     }
 }
