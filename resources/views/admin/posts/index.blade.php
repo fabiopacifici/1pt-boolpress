@@ -9,7 +9,8 @@
         <h1>
             Posts
         </h1>
-        <a class="btn btn-primary" href="{{route('admin.posts.create')}}">Create</a>
+        <a class="btn btn-primary" href="{{route('admin.posts.create')}}">
+            <i class="fas fa-plus-circle fa-sm fa-fw"></i> Create</a>
     </div>
 </header>
 

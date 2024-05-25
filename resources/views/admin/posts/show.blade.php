@@ -7,7 +7,8 @@
         <h1>
             {{$post->title}}
         </h1>
-        <a class="btn btn-primary" href="{{route('admin.posts.index')}}">All Posts</a>
+        <a class="btn btn-primary" href="{{route('admin.posts.index')}}">
+            <i class="fas fa-chevron-left fa-sm fa-fw"></i> All Posts</a>
     </div>
 </header>
 

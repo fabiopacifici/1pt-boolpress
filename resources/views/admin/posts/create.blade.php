@@ -9,7 +9,7 @@
         <h1>
             Create a wonderful post
         </h1>
-        <a class="btn btn-secondary" href="{{route('admin.posts.index')}}">Cancel</a>
+        <a class="btn btn-secondary" href="{{route('admin.posts.index')}}"><i class="fas fa-times fa-sm fa-fw"></i> Cancel</a>
     </div>
 </header>
 

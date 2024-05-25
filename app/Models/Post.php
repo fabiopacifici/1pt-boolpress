@@ -12,7 +12,6 @@ class Post extends Model
 
     protected $fillable = ['title', 'content', 'slug', 'cover_image', 'category_id'];
 
-
     /**
      * Get the category that owns the Post
      *
@@ -21,5 +20,16 @@ class Post extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+
+    /**
+     * Get the user that owns the Post
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }
