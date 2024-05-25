@@ -10,7 +10,7 @@ class Post extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'content', 'slug', 'cover_image', 'category_id'];
+    protected $fillable = ['title', 'content', 'slug', 'cover_image', 'category_id', 'user_id'];
 
     /**
      * Get the category that owns the Post

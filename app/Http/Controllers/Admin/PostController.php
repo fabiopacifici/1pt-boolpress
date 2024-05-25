@@ -19,7 +19,7 @@ class PostController extends Controller
     {
 
 
-        return view('admin.posts.index', ['posts' => Post::orderByDesc('id')->paginate()]);
+        return view('admin.posts.index', ['posts' => Post::where('user_id', auth()->id())->orderByDesc('id')->paginate()]);
     }
 
     /**
@@ -49,6 +49,10 @@ class PostController extends Controller
         }
 
         //dd($val_data);
+
+        $val_data['user_id'] = auth()->id();
+
+
         // create
         Post::create($val_data);
 
@@ -69,8 +73,11 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        $categories  = Category::all();
-        return view('admin.posts.edit', compact('post', 'categories'));
+        if ($post->user_id == auth()->id()) {
+            $categories  = Category::all();
+            return view('admin.posts.edit', compact('post', 'categories'));
+        }
+        abort(403, 'Hey! You cannot edit posts that do not belong to you. ');
     }
 
     /**
@@ -78,7 +85,12 @@ class PostController extends Controller
      */
     public function update(UpdatePostRequest $request, Post $post)
     {
+
+        if (auth()->id != $post->user_id) {
+            abort(403, 'Hey did you relly try to hack my app? 🤣');
+        }
         //dd($request->all());
+
 
         // validate
         $val_data = $request->validated();
@@ -114,6 +126,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+
+        if (auth()->id() != $post->user_id) {
+            abort(403, 'You cannot delete posts that are not yours! Hey did you relly try to hack my app? 🤣');
+        }
+
 
         if ($post->cover_image) {
             //dd('here now');
