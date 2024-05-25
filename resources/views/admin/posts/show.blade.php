@@ -17,13 +17,16 @@
     <div class="row">
         <div class="col">
             @if (Str::startsWith($post->cover_image, 'https://'))
-            <img class="card-img-top" src="{{$post->cover_image}}" alt="">
+            <img loading="lazy" class="card-img-top" src="{{$post->cover_image}}" alt="">
             @else
-            <img class="card-img-top" src="{{ asset('storage/' . $post->cover_image) }}">
+            <img loading="lazy" class="card-img-top" src="{{ asset('storage/' . $post->cover_image) }}">
             @endif
         </div>
         <div class="col">
 
+            <div class="metadata">
+                <strong>Category</strong> {{$post->category ? $post->category->name : 'Uncategorized'}}
+            </div>
             <div>{{$post->content}}</div>
 
         </div>

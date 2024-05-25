@@ -66,7 +66,8 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        return view('admin.posts.edit', compact('post'));
+        $categories  = Category::all();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     /**
@@ -97,7 +98,7 @@ class PostController extends Controller
             $val_data['cover_image'] = $image_path;
         }
 
-
+        //dd($val_data);
         // update
         $post->update($val_data);
 
