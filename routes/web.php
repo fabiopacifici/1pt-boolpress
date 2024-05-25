@@ -19,7 +19,9 @@ use App\Http\Controllers\Guest\PostController as GuestPostController;
 */
 
 Route::get('/', [PageController::class, 'index']); //http://localhost:8000/
-Route::resource('posts', GuestPostController::class)->only(['index', 'show']);
+Route::resource('posts', GuestPostController::class)->only(['index', 'show'])->parameters([
+    'posts' => 'post:slug'
+]);
 
 Route::middleware(['auth', 'verified'])
     ->name('admin.')

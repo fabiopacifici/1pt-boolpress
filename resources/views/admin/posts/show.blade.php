@@ -16,7 +16,11 @@
 
     <div class="row">
         <div class="col">
-            <img src="{{$post->cover_image}}" alt="">
+            @if (Str::startsWith($post->cover_image, 'https://'))
+            <img class="card-img-top" src="{{$post->cover_image}}" alt="">
+            @else
+            <img class="card-img-top" src="{{ asset('storage/' . $post->cover_image) }}">
+            @endif
         </div>
         <div class="col">
 
@@ -27,7 +31,5 @@
     </div>
 
 
-</div>
 
-
-@endsection
+    @endsection

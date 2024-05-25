@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('content')
 
@@ -7,7 +7,7 @@
         <h1>
             {{$post->title}}
         </h1>
-        <a class="btn btn-primary" href="{{route('admin.posts.index')}}">All Posts</a>
+        <a class="btn btn-primary" href="{{route('posts.index')}}">All Posts</a>
     </div>
 </header>
 
@@ -16,7 +16,11 @@
 
     <div class="row">
         <div class="col">
-            <img src="{{$post->cover_image}}" alt="">
+            @if (Str::startsWith($post->cover_image, 'https://'))
+            <img class="card-img-top" src="{{$post->cover_image}}" alt="">
+            @else
+            <img class="card-img-top" src="{{ asset('storage/' . $post->cover_image) }}">
+            @endif
         </div>
         <div class="col">
 

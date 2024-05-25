@@ -24,20 +24,7 @@
         <div class="row">
 
             @forelse ($latest_posts as $post)
-            <div class="col">
-                <div class="card">
-
-                    @if (Str::startsWith($post->cover_image, 'https://'))
-                    <img class="card-img-top" src="{{$post->cover_image}}" alt="">
-                    @else
-                    <img class="card-img-top" src="{{asset('storage/' . $post->cover_image)}}" alt="">
-                    @endif
-                    <div class="card-body">
-                        <h3>{{$post->title}}</h3>
-                    </div>
-                </div>
-            </div>
-
+            @include('partials.post-card')
             @empty
             <div class="col-12">
                 <p>No posts here.</p>
