@@ -42,6 +42,31 @@
         </div>
 
 
+
+
+        <div class="mb-3 d-flex gap-3">
+            @foreach ($tags as $tag )
+
+            <div class="form-check ">
+
+                @if ($errors->any())
+                <input class="form-check-input" type="checkbox" value="{{$tag->id}}" id="tag-{{$tag->id}}" name="tags[]" {{ in_array($tag->id, old('tags',[]))  ? 'checked' : '' }} />
+
+                @else
+                <input class="form-check-input" type="checkbox" value="{{$tag->id}}" id="tag-{{$tag->id}}" name="tags[]" {{ $post->tags->contains($tag->id)  ? 'checked' : '' }} />
+                @endif
+
+
+                <label class="form-check-label" for="tag-{{$tag->id}}">{{$tag->name}}</label>
+            </div>
+
+            @endforeach
+        </div>
+
+
+
+
+
         <div class="d-flex gap-3">
             <img width="140" src="{{asset('storage/' . $post->cover_image)}}" alt="">
             <div class="mb-3">

@@ -26,6 +26,14 @@
             <small id="titleHelper" class="form-text text-muted">Add the post title here</small>
         </div>
 
+
+        <div class="mb-3">
+            <label for="cover_image" class="form-label">Upload cover image</label>
+            <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="cover image" aria-describedby="coverImageHelper" />
+            <div id="coverImageHelper" class="form-text">Upload a cover image for this post</div>
+        </div>
+
+
         <div class="mb-3">
             <label for="category_id" class="form-label">Category</label>
             <select class="form-select" name="category_id" id="category_id">
@@ -39,13 +47,15 @@
             </select>
         </div>
 
-
-
-        <div class="mb-3">
-            <label for="cover_image" class="form-label">Upload cover image</label>
-            <input type="file" class="form-control" name="cover_image" id="cover_image" placeholder="cover image" aria-describedby="coverImageHelper" />
-            <div id="coverImageHelper" class="form-text">Upload a cover image for this post</div>
+        <div class="mb-3 d-flex gap-3">
+            @foreach ($tags as $tag )
+            <div class="form-check ">
+                <input class="form-check-input" type="checkbox" value="{{$tag->id}}" id="tag-{{$tag->id}}" name="tags[]" {{ in_array($tag->id, old('tags',[]))  ? 'checked' : '' }} />
+                <label class="form-check-label" for="tag-{{$tag->id}}">{{$tag->name}}</label>
+            </div>
+            @endforeach
         </div>
+
 
 
 

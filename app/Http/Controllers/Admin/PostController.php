@@ -7,6 +7,7 @@ use App\Http\Requests\UpdatePostRequest;
 use App\Models\Post;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -27,7 +28,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('admin.posts.create', ['categories' => Category::all()]);
+        $categories = Category::all();
+        $tags = Tag::all();
+        return view('admin.posts.create', compact('categories', 'tags'));
     }
 
     /**
@@ -54,8 +57,11 @@ class PostController extends Controller
 
 
         // create
-        Post::create($val_data);
+        $post = Post::create($val_data);
 
+        if ($request->has('tags')) {
+            $post->tags()->attach($val_data['tags']);
+        }
         // redirect
         return to_route('admin.posts.index')->with('message', 'Post Created successfully');
     }
@@ -75,7 +81,8 @@ class PostController extends Controller
     {
         if ($post->user_id == auth()->id()) {
             $categories  = Category::all();
-            return view('admin.posts.edit', compact('post', 'categories'));
+            $tags  = Tag::all();
+            return view('admin.posts.edit', compact('post', 'categories', 'tags'));
         }
         abort(403, 'Hey! You cannot edit posts that do not belong to you. ');
     }
@@ -86,7 +93,10 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, Post $post)
     {
 
-        if (auth()->id != $post->user_id) {
+
+        //dd($request->all());
+
+        if (auth()->id() != $post->user_id) {
             abort(403, 'Hey did you relly try to hack my app? 🤣');
         }
         //dd($request->all());
@@ -117,6 +127,10 @@ class PostController extends Controller
         // update
         $post->update($val_data);
 
+        if ($request->has('tags')) {
+            $post->tags()->sync($val_data['tags']);
+        }
+
         // redirect
         return to_route('admin.posts.index')->with('message', 'Post updated successfully');
     }
@@ -126,6 +140,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
+        // 👇 This methods are disabled because we have cascadeOnDelete inside the pivot migration.
+        // $post->tags()->sync([]);
+        // $post->tags()->detach();
+
 
         if (auth()->id() != $post->user_id) {
             abort(403, 'You cannot delete posts that are not yours! Hey did you relly try to hack my app? 🤣');
