@@ -59,6 +59,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{{route('admin.posts.create') }}"><i class="fas fa-plus-circle"></i> {{ __('Add Post') }}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{route('admin.categories.index') }}">
+                                <i class="fas fa-folder"></i> {{ __('Categories') }}
+                            </a>
+                        </li>
                     </ul>
 
                     <!-- Right Side Of Navbar -->
