@@ -79,6 +79,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+
         if ($post->user_id == auth()->id()) {
             $categories  = Category::all();
             $tags  = Tag::all();
