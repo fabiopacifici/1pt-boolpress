@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Guest\PostController as GuestPostController;
+use App\Http\Controllers\LeadController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,11 @@ Route::resource('posts', GuestPostController::class)->only(['index', 'show'])->p
     'posts' => 'post:slug'
 ]);
 
+Route::get('contacts', [LeadController::class, 'create'])->name('contacts');
+Route::post('contacts', [LeadController::class, 'store'])->name('contacts.store');
+
+
+
 Route::middleware(['auth', 'verified'])
     ->name('admin.')
     ->prefix('admin')
@@ -38,6 +44,12 @@ Route::middleware(['auth', 'verified'])
 
         Route::resource('categories', CategoryController::class);
 
+
+        Route::get('/mailable', function () {
+            $lead = App\Models\Lead::find(1);
+
+            return new App\Mail\NewLeadMarkdown($lead);
+        });
     });
 
 

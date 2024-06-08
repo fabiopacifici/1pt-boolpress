@@ -16,11 +16,7 @@
 
 
 <div class="container mt-4">
-    @if (session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
-    </div>
-    @endif
+    @include('partisals.session-message')
 
 
 
