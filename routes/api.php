@@ -4,7 +4,7 @@ use App\Http\Controllers\API\PostController;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API\LeadController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,3 +29,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('posts', [PostController::class, 'index']);
 Route::get('posts/{post}', [PostController::class, 'show']);
 
+Route::post('contacts', [LeadController::class, 'store']);
